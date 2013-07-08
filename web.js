@@ -1,14 +1,14 @@
-AOAvar express = require('express');
+var express = require('express');
 
 var app = express.createServer(express.logger());
 
 app.get('/', function(request, response) {
 
     var fs = require("fs");
-    var buffer = new Buffer("utf-8", 25);
-    fs.readFileSync("index.html", "utf-8");
 
-    response.send(buffer.toString(fs.readFileSync));
+    var buffer = fs.readFileSync("index.html");
+    var data = buf.toString(buffer);
+    response.send(data);
 });
 
 var port = process.env.PORT || 5000;
