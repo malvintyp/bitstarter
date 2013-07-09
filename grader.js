@@ -33,6 +33,7 @@ var assertFileExists = function(infile) {
 	}
     return instr;
 };
+var rest = require('restler');
 
 var cheerioHtmlFile = function(htmlfile) {
     return cheerio.load(fs.readFileSync(htmlfile));
@@ -41,6 +42,15 @@ var cheerioHtmlFile = function(htmlfile) {
 var loadChecks = function(checksfile) {
     return JSON.parse(fs.readFileSync(checksfile));
 };
+
+rest.get(apiurl).on('complete', function(result) {
+    if(result instanceof Error) {
+    sys.puts('Error: ' + result.message);
+    this.retry(5000);// try again after 5 sec
+    } else {
+	sys.puts(result);
+    }
+});
 
 var checkHtmlFile = function(htmlfile, checksfile) {
     $ = cheerioHtmlFile(htmlfile);
